@@ -32,6 +32,12 @@ extern "C"
 #include <stdbool.h>
 #include <stdint.h>
 
+#ifdef LORAWAN_USE_EXTERNAL_TIMERS
+    /* Forward declaration of the Timer event structure. */
+    struct TimerEvent_s;
+    typedef struct TimerEvent_s * TimerEvent_t;
+#else
+
 /*!
  * \brief Timer object description
  */
@@ -44,7 +50,10 @@ typedef struct TimerEvent_s
     void ( *Callback )( void* context ); //! Timer IRQ callback function
     void *Context;                       //! User defined data object pointer to pass back
     struct TimerEvent_s *Next;           //! Pointer to the next Timer object.
-}TimerEvent_t;
+} TimerEvent_t;
+
+#endif
+
 
 /*!
  * \brief Timer time variable definition
@@ -53,6 +62,7 @@ typedef struct TimerEvent_s
 typedef uint32_t TimerTime_t;
 #define TIMERTIME_T_MAX                             ( ( uint32_t )~0 )
 #endif
+
 
 /*!
  * \brief Initializes the timer object
